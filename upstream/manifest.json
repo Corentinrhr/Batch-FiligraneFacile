@@ -1,0 +1,78 @@
+{
+  "description": "Suivi des fichiers sources officiels DossierFacile / FiligraneFacile (MTES-MCT)",
+  "updated_at": "2026-11-04T22:34:05.131595+00:00",
+  "files": [
+    {
+      "id": "BOPdfDocumentTemplate.java",
+      "repo": "MTES-MCT/dossierfacile-backend",
+      "branch": "main",
+      "remote_path": "dossierfacile-pdf-generator/src/main/java/fr/dossierfacile/api/pdfgenerator/service/templates/BOPdfDocumentTemplate.java",
+      "local_target": "src/batch_filigrane/watermark_engine.py",
+      "description": "Algorithme principal du filigrane (rastérisation PDF/images, cadrage A4, rotation -25°, flou gaussien, couleurs et détourage QR codes)",
+      "github_url": "https://github.com/MTES-MCT/dossierfacile-backend/blob/main/dossierfacile-pdf-generator/src/main/java/fr/dossierfacile/api/pdfgenerator/service/templates/BOPdfDocumentTemplate.java",
+      "raw_url": "https://raw.githubusercontent.com/MTES-MCT/dossierfacile-backend/main/dossierfacile-pdf-generator/src/main/java/fr/dossierfacile/api/pdfgenerator/service/templates/BOPdfDocumentTemplate.java",
+      "sha256": "4123d6b67c66aa832de08e6a050c69f2bff6466b6cb5c9191f9358935a757d2d",
+      "synced_at": "2026-11-04T22:34:04.230454+00:00"
+    },
+    {
+      "id": "DFFilter.java",
+      "repo": "MTES-MCT/dossierfacile-backend",
+      "branch": "main",
+      "remote_path": "dossierfacile-pdf-generator/src/main/java/fr/dossierfacile/api/pdfgenerator/service/templates/DFFilter.java",
+      "local_target": "src/batch_filigrane/watermark_engine.py (apply_df_distortion_filter)",
+      "description": "Filtre d'ondulation sinusoïdale anti-OCR (xFrequency=12, yFrequency=8, maxDistorsion=28)",
+      "github_url": "https://github.com/MTES-MCT/dossierfacile-backend/blob/main/dossierfacile-pdf-generator/src/main/java/fr/dossierfacile/api/pdfgenerator/service/templates/DFFilter.java",
+      "raw_url": "https://raw.githubusercontent.com/MTES-MCT/dossierfacile-backend/main/dossierfacile-pdf-generator/src/main/java/fr/dossierfacile/api/pdfgenerator/service/templates/DFFilter.java",
+      "sha256": "3fa2687000aed9cc0347ad2d8ba0635a6771d5497cafc4653bda08a63ec8d796",
+      "synced_at": "2026-11-04T22:34:04.415877+00:00"
+    },
+    {
+      "id": "PdfTemplateParameters.java",
+      "repo": "MTES-MCT/dossierfacile-backend",
+      "branch": "main",
+      "remote_path": "dossierfacile-pdf-generator/src/main/java/fr/dossierfacile/api/pdfgenerator/model/PdfTemplateParameters.java",
+      "local_target": "src/batch_filigrane/watermark_engine.py (WatermarkOptions)",
+      "description": "Paramètres PDF par défaut (PDRectangle.A4, compressionQuality=0.9f, maxPage=A4150)",
+      "github_url": "https://github.com/MTES-MCT/dossierfacile-backend/blob/main/dossierfacile-pdf-generator/src/main/java/fr/dossierfacile/api/pdfgenerator/model/PdfTemplateParameters.java",
+      "raw_url": "https://raw.githubusercontent.com/MTES-MCT/dossierfacile-backend/main/dossierfacile-pdf-generator/src/main/java/fr/dossierfacile/api/pdfgenerator/model/PdfTemplateParameters.java",
+      "sha256": "745286652957f7c8dbeb3941c0bf39605d448505e3753c71c7eb97261050f4b3",
+      "synced_at": "2026-11-04T22:34:04.593265+00:00"
+    },
+    {
+      "id": "PageDimension.java",
+      "repo": "MTES-MCT/dossierfacile-backend",
+      "branch": "main",
+      "remote_path": "dossierfacile-pdf-generator/src/main/java/fr/dossierfacile/api/pdfgenerator/model/PageDimension.java",
+      "local_target": "src/batch_filigrane/watermark_engine.py (PAGE_DIMENSIONS)",
+      "description": "Résolutions A4 (A4128: 1058x1496 @ 128 DPI, A4150: 1240x1754 @ 150 DPI)",
+      "github_url": "https://github.com/MTES-MCT/dossierfacile-backend/blob/main/dossierfacile-pdf-generator/src/main/java/fr/dossierfacile/api/pdfgenerator/model/PageDimension.java",
+      "raw_url": "https://raw.githubusercontent.com/MTES-MCT/dossierfacile-backend/main/dossierfacile-pdf-generator/src/main/java/fr/dossierfacile/api/pdfgenerator/model/PageDimension.java",
+      "sha256": "ad3d014437e043bd9ccc11e3966f038c14d75779dc5fc1667997caffc2c9ac8d",
+      "synced_at": "2026-11-04T22:34:04.792143+00:00"
+    },
+    {
+      "id": "FeatureFlipping.java",
+      "repo": "MTES-MCT/dossierfacile-backend",
+      "branch": "main",
+      "remote_path": "dossierfacile-pdf-generator/src/main/java/fr/dossierfacile/api/pdfgenerator/configuration/FeatureFlipping.java",
+      "local_target": "src/batch_filigrane/watermark_engine.py (use_colors, use_distortion)",
+      "description": "Options d'activation des couleurs multiples et de la distorsion",
+      "github_url": "https://github.com/MTES-MCT/dossierfacile-backend/blob/main/dossierfacile-pdf-generator/src/main/java/fr/dossierfacile/api/pdfgenerator/configuration/FeatureFlipping.java",
+      "raw_url": "https://raw.githubusercontent.com/MTES-MCT/dossierfacile-backend/main/dossierfacile-pdf-generator/src/main/java/fr/dossierfacile/api/pdfgenerator/configuration/FeatureFlipping.java",
+      "sha256": "945c34f7006835f7d67bd98d1663524eb70f1876b4a18e223d55b67d53dfce25",
+      "synced_at": "2026-11-04T22:34:04.954382+00:00"
+    },
+    {
+      "id": "WatermarkingPage.vue",
+      "repo": "MTES-MCT/Dossier-Facile-Frontend",
+      "branch": "main",
+      "remote_path": "watermark/src/views/WatermarkingPage.vue",
+      "local_target": "src/batch_filigrane/static/index.html & app.js",
+      "description": "Interface utilisateur officielle FiligraneFacile (limites de caractères, nommage _filigrane)",
+      "github_url": "https://github.com/MTES-MCT/Dossier-Facile-Frontend/blob/main/watermark/src/views/WatermarkingPage.vue",
+      "raw_url": "https://raw.githubusercontent.com/MTES-MCT/Dossier-Facile-Frontend/main/watermark/src/views/WatermarkingPage.vue",
+      "sha256": "b2e8f1ced22b25e5ab849f621fdaaf7988f5e77de9040408e5ddee0609be1dc2",
+      "synced_at": "2026-11-04T22:34:05.131436+00:00"
+    }
+  ]
+}

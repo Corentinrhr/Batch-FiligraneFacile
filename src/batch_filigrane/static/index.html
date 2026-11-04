@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' blob:; frame-src 'self' blob:; worker-src 'self' blob:; object-src 'none'; base-uri 'self'"
+  />
+  <title>Batch-Filigrane — Traitement PDF par lot 100% Local</title>
+  <link rel="icon" type="image/png" href="./favicon_filigrane.png" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <!-- En-tête indépendant (Design propre, hors DSFR) -->
+  <header class="site-header">
+    <div class="container site-header__body">
+      <div class="site-header__brand">
+        <div class="brand-logo">
+          <img src="./favicon_filigrane.png" alt="Logo Batch-Filigrane" class="brand-logo__img" />
+        </div>
+        <div class="site-header__service">
+          <h1 class="site-header__title">
+            Batch-Filigrane
+            <span class="badge badge--success">
+              <svg class="icon icon--xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+              100% Local &amp; Hors-Ligne
+            </span>
+          </h1>
+          <p class="site-header__tagline">
+            Filigranage par lot de documents PDF et images en parallèle — Téléchargement séparé ou fusionné
+          </p>
+        </div>
+      </div>
+      <div class="site-header__actions">
+        <a
+          href="https://github.com/Corentinrhr/Batch-FiligraneFacile"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn--tertiary btn--sm"
+        >
+          <svg class="icon icon--sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+          </svg>
+          <span>GitHub du projet</span>
+          <svg class="icon icon--xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M7 17L17 7"/>
+            <path d="M7 7h10v10"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container site-main">
+    <!-- Bandeau d'information -->
+    <div class="callout">
+      <div class="callout__icon" aria-hidden="true">
+        <svg class="icon icon--md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+      </div>
+      <div class="callout__content">
+        <p class="callout__text">
+          Vos documents ne quittent jamais votre ordinateur. Chaque fichier est filigrané en parallèle via une réimplémentation de l'algorithme open-source de Dossier Facile. Vous pouvez récupérer vos documents séparément (1 PDF par fichier) ou joints (fusionnés en 1 seul PDF).
+        </p>
+      </div>
+    </div>
+
+    <div class="grid-layout">
+      <!-- Colonne gauche : Configuration du filigrane et des options -->
+      <section class="card config-card">
+        <h2 class="card-title">1. Configuration du filigrane</h2>
+
+        <div class="form-group">
+          <label class="form-label" for="watermark-input">
+            Indiquez le filigrane à insérer sur chaque document :
+          </label>
+          <div class="input-with-counter">
+            <input
+              id="watermark-input"
+              type="text"
+              class="form-input"
+              maxlength="120"
+              value="Document exclusivement destiné à la location immobilière"
+              placeholder="Ex : Document exclusivement destiné à la location immobilière"
+            />
+            <span id="char-counter" class="char-counter">56/100</span>
+          </div>
+          <div class="presets-row">
+            <span class="presets-label">Suggestions :</span>
+            <button type="button" class="chip-btn" data-preset="Document exclusivement destiné à la location immobilière">
+              Location immobilière
+            </button>
+            <button type="button" class="chip-btn" data-preset="Document exclusivement destiné aux démarches administratives">
+              Démarches administratives
+            </button>
+            <button type="button" class="chip-btn" data-preset="Copie fournie uniquement pour vérification d'identité">
+              Vérification d'identité
+            </button>
+            <button type="button" class="chip-btn" data-preset="Document transmis à titre justificatif - Toute réutilisation interdite">
+              Usage justificatif
+            </button>
+          </div>
+        </div>
+
+        <hr class="divider" />
+
+        <div class="options-grid">
+          <div class="form-group">
+            <label class="form-label" for="concurrency-input">
+              Fichiers traités en parallèle : <strong id="concurrency-val">6</strong>
+            </label>
+            <input
+              id="concurrency-input"
+              type="range"
+              min="1"
+              max="16"
+              value="6"
+              class="form-range"
+            />
+            <span class="form-hint">Nombre de documents filigranés simultanément en local</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="dpi-select">Résolution PDF (DPI) :</label>
+            <select id="dpi-select" class="form-select">
+              <option value="128">128 DPI (Léger - A4 128)</option>
+              <option value="150" selected>150 DPI (Standard - A4 150)</option>
+              <option value="220">220 DPI (Haute définition)</option>
+              <option value="300">300 DPI (Qualité impression)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="suffix-input">Suffixe des fichiers sortants :</label>
+            <input
+              id="suffix-input"
+              type="text"
+              class="form-input"
+              value="_filigrane"
+              placeholder="_filigrane"
+            />
+            <span class="form-hint">Ex : <code>document_filigrane.pdf</code></span>
+          </div>
+        </div>
+
+        <div class="checkboxes-group">
+          <label class="checkbox-label">
+            <input type="checkbox" id="opt-qr-codes" checked />
+            <span>
+              <strong>Préserver les QR Codes / 2D-Doc</strong>
+              <small>(Détecte et dégage automatiquement les QR codes pour qu'ils restent lisibles)</small>
+            </span>
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" id="opt-colors" checked />
+            <span>
+              <strong>Alterner les couleurs du filigrane</strong>
+              <small>(Option <code>useColors</code> : alterne gris anthracite, bleu foncé et rouge)</small>
+            </span>
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" id="opt-distortion" checked />
+            <span>
+              <strong>Ondulation anti-OCR (DFFilter)</strong>
+              <small>(Option <code>useDistortion</code> : distorsion sinusoïdale du filigrane)</small>
+            </span>
+          </label>
+        </div>
+      </section>
+
+      <!-- Colonne droite : Sélection de fichiers & Traitement en lot -->
+      <section class="card upload-card">
+        <div class="card-header-flex">
+          <h2 class="card-title">2. Vos documents à filigraner</h2>
+          <div class="queue-counter-badge" id="queue-count-badge">0 fichier sélectionné</div>
+        </div>
+
+        <!-- Zone de Drag & Drop -->
+        <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Déposer des fichiers PDF ou images">
+          <input
+            type="file"
+            id="file-input"
+            multiple
+            accept="application/pdf,image/png,image/jpeg,image/webp,.pdf,.png,.jpg,.jpeg"
+            hidden
+          />
+          <div class="dropzone__icon" aria-hidden="true">
+            <svg class="icon icon--xl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="12" y1="18" x2="12" y2="12"/>
+              <polyline points="9 15 12 12 15 15"/>
+            </svg>
+          </div>
+          <p class="dropzone__title">
+            Glissez-déposez tous vos fichiers PDF (ou images) ici
+          </p>
+          <p class="dropzone__subtitle">
+            ou <span class="dropzone__link">cliquez pour parcourir vos dossiers</span>
+          </p>
+          <p class="dropzone__formats">
+            Formats supportés : PDF (mono ou multi-pages), JPG, PNG • Traitement 100% local en parallèle
+          </p>
+        </div>
+
+        <!-- Barre d'actions unifiée (boutons de même taille bien alignés) -->
+        <div class="action-bar" id="action-bar">
+          <div class="action-bar__summary" id="queue-summary">Aucun document en attente</div>
+          <div class="action-bar__buttons">
+            <button type="button" id="clear-queue-btn" class="btn btn--secondary action-bar__btn" disabled>
+              <svg class="icon icon--sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="3 6 5 6 21 6"/>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+              </svg>
+              <span>Vider la liste</span>
+            </button>
+
+            <button type="button" id="start-batch-btn" class="btn btn--primary action-bar__btn" disabled>
+              <svg class="icon icon--sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polygon points="5 3 19 12 5 21 5 3"/>
+              </svg>
+              <span>Lancer le filigrane</span>
+            </button>
+
+            <!-- Bouton unique Télécharger avec menu déroulant -->
+            <div class="dropdown action-bar__dropdown" id="download-dropdown-wrapper">
+              <button
+                type="button"
+                id="download-dropdown-btn"
+                class="btn btn--primary action-bar__btn"
+                aria-haspopup="true"
+                aria-expanded="false"
+                disabled
+              >
+                <svg class="icon icon--sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="7 10 12 15 17 10"/>
+                  <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                <span>Télécharger</span>
+                <svg class="icon icon--sm dropdown-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </button>
+
+              <div class="dropdown-menu" id="download-dropdown-menu" role="menu" hidden>
+                <a
+                  id="download-all-zip-btn"
+                  href="#"
+                  class="dropdown-item"
+                  role="menuitem"
+                >
+                  <svg class="icon icon--sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M21 8v13H3V8"/>
+                    <path d="M1 3h22v5H1z"/>
+                    <path d="M10 12h4"/>
+                  </svg>
+                  <div class="dropdown-item__text">
+                    <strong>Télécharger séparément (.ZIP)</strong>
+                    <small>1 fichier PDF distinct par document dans une archive ZIP</small>
+                  </div>
+                </a>
+
+                <button
+                  type="button"
+                  id="download-all-individual-btn"
+                  class="dropdown-item"
+                  role="menuitem"
+                >
+                  <svg class="icon icon--sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <path d="M12 18v-6"/>
+                    <path d="M9 15l3 3 3-3"/>
+                  </svg>
+                  <div class="dropdown-item__text">
+                    <strong>Télécharger séparément (.PDF par .PDF)</strong>
+                    <small>Télécharge chaque PDF individuellement dans votre navigateur</small>
+                  </div>
+                </button>
+
+                <div class="dropdown-divider"></div>
+
+                <a
+                  id="download-merged-pdf-btn"
+                  href="#"
+                  class="dropdown-item"
+                  role="menuitem"
+                >
+                  <svg class="icon icon--sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="8" y="2" width="13" height="16" rx="2"/>
+                    <path d="M4 6v14a2 2 0 0 0 2 2h11"/>
+                  </svg>
+                  <div class="dropdown-item__text">
+                    <strong id="download-merged-label">Télécharger en PDF fusionné</strong>
+                    <small>Joint tous les documents dans l'ordre en un seul fichier PDF</small>
+                  </div>
+                </a>
+
+                <button
+                  type="button"
+                  id="preview-merged-pdf-btn"
+                  class="dropdown-item"
+                  role="menuitem"
+                >
+                  <svg class="icon icon--sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                  </svg>
+                  <div class="dropdown-item__text">
+                    <strong>Aperçu du PDF fusionné</strong>
+                    <small>Visualiser le document joint avant téléchargement</small>
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Barre de progression globale du lot -->
+        <div class="batch-progress-panel" id="batch-progress-panel" hidden>
+          <div class="batch-progress-header">
+            <div class="batch-progress-title-wrap">
+              <strong id="batch-status-title">Traitement du lot en cours...</strong>
+              <span class="batch-stats-text" id="batch-stats-text">0 / 0 terminés</span>
+            </div>
+            <span class="batch-percent-badge" id="batch-percent-badge">0%</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" id="batch-progress-fill"></div>
+          </div>
+        </div>
+
+        <!-- Liste des fichiers (file d'attente + résultats) -->
+        <div class="files-list-container" id="files-list-container">
+          <div class="empty-state" id="empty-state">
+            Aucun document dans la file d'attente. Ajoutez vos PDF pour les traiter en parallèle en local.
+          </div>
+          <ul class="files-list" id="files-list" hidden></ul>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Modale d'aperçu PDF -->
+  <div class="modal-backdrop" id="preview-modal" hidden>
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title" id="preview-modal-title">Aperçu du document filigrané</h3>
+        <div class="modal-header-actions">
+          <a id="preview-modal-download" href="#" class="btn btn--primary btn--sm">
+            <svg class="icon icon--sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            <span>Télécharger ce PDF</span>
+          </a>
+          <button type="button" id="close-modal-btn" class="btn btn--tertiary btn--sm">
+            <svg class="icon icon--sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+            <span>Fermer</span>
+          </button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <iframe id="preview-iframe" title="Aperçu PDF" src="about:blank"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <p>
+        <strong>Projet open-source indépendant (Licence MIT)</strong> — Non affilié à DossierFacile ni à l'État français.
+        Algorithme de filigranage adapté des dépôts open-source
+        <a href="https://github.com/MTES-MCT/Dossier-Facile-Frontend" target="_blank" rel="noopener noreferrer">MTES-MCT/Dossier-Facile-Frontend</a>
+        &amp;
+        <a href="https://github.com/MTES-MCT/dossierfacile-backend" target="_blank" rel="noopener noreferrer">MTES-MCT/dossierfacile-backend</a>.
+      </p>
+    </div>
+  </footer>
+
+  <script src="./browser_engine.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
