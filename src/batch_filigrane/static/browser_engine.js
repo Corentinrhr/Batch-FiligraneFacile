@@ -50,8 +50,12 @@ window.BrowserWatermarkEngine = (() => {
   async function ensureLibrariesLoaded() {
     if (libsLoadedPromise) return libsLoadedPromise;
     libsLoadedPromise = (async () => {
+      const isFileProtocol = window.location.protocol === "file:";
       await Promise.all([
         window.pdfjsLib ? Promise.resolve() : loadLocalScript("./vendor/pdf.min.js"),
+        isFileProtocol && !window.pdfjsWorker
+          ? loadLocalScript("./vendor/pdf.worker.min.js")
+          : Promise.resolve(),
         window.jspdf ? Promise.resolve() : loadLocalScript("./vendor/jspdf.umd.min.js"),
         window.JSZip ? Promise.resolve() : loadLocalScript("./vendor/jszip.min.js"),
         window.jsQR
@@ -337,7 +341,14 @@ window.BrowserWatermarkEngine = (() => {
           pageDataUrls,
         };
       } finally {
-        await pdf.destroy();
+        if (typeof pdf.cleanup === "function") {
+          await pdf.cleanup();
+        }
+        if (typeof pdf.destroy === "function") {
+          await pdf.destroy();
+        } else if (loadingTask && typeof loadingTask.destroy === "function") {
+          await loadingTask.destroy();
+        }
       }
     }
 

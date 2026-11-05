@@ -1,0 +1,16 @@
+{
+  "name": "batch-filigrane-vendor",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Dépendances front-end embarquées (vendor) pour le moteur 100% navigateur de Batch-Filigrane",
+  "license": "MIT",
+  "scripts": {
+    "sync-vendor": "node scripts/sync_vendor.mjs"
+  },
+  "dependencies": {
+    "jspdf": "^4.2.1",
+    "jsqr": "^1.4.0",
+    "jszip": "^3.10.1",
+    "pdfjs-dist": "^6.5.438"
+  }
+}

@@ -9,6 +9,7 @@ import asyncio
 import contextlib
 import io
 import logging
+import mimetypes
 import re
 import shutil
 import tempfile
@@ -36,6 +37,7 @@ from .watermark_engine import (
 )
 
 logger = logging.getLogger(__name__)
+mimetypes.add_type("text/javascript", ".mjs")
 
 STATIC_DIR = Path(__file__).parent / "static"
 STORAGE_ROOT = Path(tempfile.gettempdir()) / "batch_filigrane_sessions"

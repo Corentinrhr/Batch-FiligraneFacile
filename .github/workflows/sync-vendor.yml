@@ -1,0 +1,49 @@
+name: Sync Vendor Libraries
+
+on:
+  pull_request:
+    paths:
+      - "package.json"
+      - "package-lock.json"
+      - "scripts/sync_vendor.mjs"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync-vendor:
+    runs-on: ubuntu-latest
+    # S'exécute sur les PR internes (dont celles de Dependabot)
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Sync vendor bundles
+        run: npm run sync-vendor
+
+      - name: Commit updated vendor files to PR
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/batch_filigrane/static/vendor/
+          if ! git diff --cached --quiet; then
+            git commit -m "chore(vendor): synchronize static/vendor bundles with package-lock.json"
+            git push
+          else
+            echo "Les fichiers vendor/ sont déjà synchronisés."
+          fi
+

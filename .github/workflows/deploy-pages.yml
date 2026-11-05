@@ -24,6 +24,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Ensure vendor bundles match package-lock.json
+        run: |
+          npm ci
+          npm run sync-vendor
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 

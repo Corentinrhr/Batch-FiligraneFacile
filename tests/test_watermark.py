@@ -162,12 +162,13 @@ async def test_batch_separate_and_merged_downloads() -> None:
 
 
 def test_c2_pdfjs_eval_disabled_in_vendor_bundles() -> None:
-    """Vérifie que CVE-2024-4367 (isEvalSupported) est neutralisé dans les bundles PDF.js."""
+    """Vérifie que les bundles PDF.js (pdf.min.js & pdf.worker.min.js) sont présents, compatibles file:// et sans eval/new Function."""
     for filename in ("pdf.min.js", "pdf.worker.min.js"):
         bundle_path = STATIC_DIR / "vendor" / filename
+        assert bundle_path.exists(), f"Bundle manquant : {filename}"
         content = bundle_path.read_text(encoding="utf-8")
-        assert "function isEvalSupported(){return!1}" in content
-        assert 'function isEvalSupported(){try{new Function("");return!0}' not in content
+        assert 'new Function(' not in content
+        assert '//# sourceMappingURL=' not in content
 
 
 def test_e2_dpi_proportional_scaling() -> None:
